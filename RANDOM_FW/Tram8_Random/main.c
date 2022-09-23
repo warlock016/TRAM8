@@ -6,8 +6,8 @@
  * Author : Kay Knofe LPZW.modules
  * www.leipzigwest.org
 `*
- * Version 1.1
- * WORKS WITH HW REV 1.1
+ * Version 1.3
+ * WORKS WITH HW REV 1.0-1.5
  * 
  *	SOFTWARE License:
  *	CC BY-NC-SA 4.0
@@ -152,6 +152,21 @@ int main(void)
 	_delay_ms(300);
 	set_LED(DISABLE);
 #endif	
+
+	#define BUTTONFIXVARIABLE (uint8_t *) 0x07
+	//THIS PART IS FOR HARDWARE VERSION 1.5 and up so Code is backwards compatible
+	uint8_t buttonfix_flag = 0;
+
+	do {} while (!eeprom_is_ready());
+	//load Channel
+	buttonfix_flag = eeprom_read_byte(BUTTONFIXVARIABLE);
+
+	if (buttonfix_flag == 0xAA)
+	{
+		DDRC &= ~((1 << BUTTON_PIN));//INPUT
+	}
+
+
 	//DIRECT_BUTTONS_DDR &= ~(1 << DIRECT_GROUPBUTTON_bit); //GROUP BUTTON IS INPUT
 	//DIRECT_BUTTONS_PORT |= (1 << DIRECT_GROUPBUTTON_bit); //PULLUP SWITCH TO GND
 	

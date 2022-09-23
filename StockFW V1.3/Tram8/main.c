@@ -5,7 +5,7 @@
  * Author : Kay Knofe
  * CC BY-NC-ND 4.0
  *
- * Version 1.2
+ * Version 1.3
 
  * 
  *
