@@ -2,8 +2,17 @@
 
 LPZW.modules TRAM8 Repository for Firmware Hacking
 
+Convert the compiled hex file to SysEx with the Script in "HEX_2_SYX Formating". 
+```
+python .\hex_2_syx.py "Tram8.hex"
+```
+You'll need intelhex extension for python (.\.> pip3 intelhex)
+
 # Stock Firmware 
 8 Gates of the same MIDI Channel + Velocity of those notes or 8 fixed CCs of same channel
+
+V1.3 was necessary for the slight change on the learn button in HW1.5 - there is bodge fix (adding a pull down) not in the schematics
+
 
 # Clocks & Random:
 
