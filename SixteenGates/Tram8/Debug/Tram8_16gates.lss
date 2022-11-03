@@ -123,7 +123,7 @@ uint8_t TWI_READ_BULK(uint8_t ICAddr, uint8_t Offset, uint8_t Length, uint8_t (*
 		TWSR=0;					//prescaler = 1 = (4^0)
   80:	11 b8       	out	0x01, r1	; 1
 		TWBR=TW_Bautrate;
-  82:	9c e0       	ldi	r25, 0x0C	; 12
+  82:	93 e0       	ldi	r25, 0x03	; 3
   84:	90 b9       	out	0x00, r25	; 0
 		
 		//STOP
@@ -444,7 +444,7 @@ uint8_t TWI_WRITE_BULK(uint8_t ICAddr, uint8_t Offset, uint8_t Length, uint8_t (
 		TWSR=0;					//prescaler = 1 = (4^0)
  17c:	11 b8       	out	0x01, r1	; 1
 		TWBR=TW_Bautrate;
- 17e:	9c e0       	ldi	r25, 0x0C	; 12
+ 17e:	93 e0       	ldi	r25, 0x03	; 3
  180:	90 b9       	out	0x00, r25	; 0
 		
 		//STOP

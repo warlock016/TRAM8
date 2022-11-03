@@ -9,8 +9,8 @@
 #include <stdio.h>
 
 
-#define TW_Bautrate 12 //400khz  (no prescaler, F_CPU=16M)
- // #define TW_Bautrate 2 //400khz
+//#define TW_Bautrate 12 // (no prescaler, F_CPU=16M)
+#define TW_Bautrate 3 //400khz
 
 
 uint8_t TWI_WRITE_BYTE(uint8_t ICAddr, uint8_t RegAddr, uint8_t Value){
