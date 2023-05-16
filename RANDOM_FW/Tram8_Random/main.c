@@ -117,11 +117,11 @@ int main(void)
 /* GPIO INIT */
 	//DDRA = 0xFF; //ROW&COLUMN FOR LED/BUTTON	
 	DDRC = 0x0C | (1 << LED_pin) | (1 << BUTTON_PIN); //LDAC & CLEAR & LED
-	DDRB = 0x01; // Trigger Out 0	
-	DDRD = 0xFE; //Trigger outs 1-7
+	DDRB |= (1 << PB0); // Trigger Out 0	
+	DDRD |= 0xFE; //Trigger outs 1-7
 
-    PORTD |= 0xFE; //ALL GATES LOW (Inverter Out)
-    PORTB |= 0x01; // 
+    PORTD &= 0x01; //ALL GATES LOW (Inverter Out)
+    PORTB &= 0xFE; // 
 	
 #ifndef SIMULATOR		
 	set_LED(ENABLE);
@@ -182,7 +182,7 @@ int main(void)
 	//uint8_t i2cread[5] = {NULL};
 	//TWI_READ_BULK(0x20,0x00,2,&i2cread);
 	PORTC = (1 << PC2)|(1 << PC3);	
-	DDRC  |= (1 << PC2)|(1 << PC3);
+	DDRC |= (1 << PC2)|(1 << PC3);
 
 #ifndef SIMULATOR	
 	velocity_out = test_max5825();	//Velocity Out Expander present? (a.k.a. WK4) 
@@ -197,8 +197,8 @@ int main(void)
 	//max5825_set_load_channel(5,0x3E80);	//2V@Ref4.1
 	//max5825_set_load_channel(6,0x9C40);	//5V@Ref4.1
 	//max5825_set_load_channel(7,0xDAC0);	//7V@Ref4.1
-	PORTB |= (1 << PB1); //PULLUP
-	DDRB &= ~(1 << PB1); //INPUT		
+	//PORTB |= (1 << PB1); //PULLUP
+	//DDRB &= ~(1 << PB1); //INPUT		
 	_delay_ms(100);
 	
 	if ((PINB >> PB1) &1){
@@ -214,6 +214,7 @@ int main(void)
 		  clear_pin_ptr = & set_pin_inv;		
 	}
 
+				(*clear_pin_ptr)(PIN_A);
 				(*clear_pin_ptr)(PIN_B);
 				(*clear_pin_ptr)(PIN_C);
 				(*clear_pin_ptr)(PIN_D);
@@ -253,102 +254,6 @@ int main(void)
 	static uint8_t calc_update_flag = 1;
 	static uint8_t dac_update_flag = 1;
 		
-	if(midi_clock_tick_cntr%6==5){
-		calc_update_flag = 1; 
-		dac_update_flag = 1;//so the DAC is only updated one every 16ths
-	}
-	
-	if (midi_clock_tick_cntr%6==0)
-	{
-		if(calc_update_flag){
-
-			//channel 3 brownian noise
-			int16_temp = rand()>>2; //half random
-	
-			if(int16_temp>0x1000)//{
-				int16_temp |= 0xE000; //MAKE IT MINUS!!  		
-		
-			rand_2_temp += int16_temp;	
-
-			if(rand_2_temp>16383)
-				rand_2_temp=16383;
-			if(rand_2_temp<0)
-				rand_2_temp=0;
-		
-			int16_temp = (uint16_t) rand_2_temp<<2;
-				
-			all_dacs.dac2_val =	(int16_temp & 0xFF00)>>8; //4095 * (midi_clock_cntr & 0x0F);
-			all_dacs.dac2_val |= (int16_temp & 0x00F0)<<8;		
-		
-			//channel 8 ramp up
-			int16_temp = 4095 * (midi_clock_cntr & 0x0F);
-		
-			all_dacs.dac7_val =	(int16_temp & 0xFF00)>>8; //4095 * (midi_clock_cntr & 0x0F);
-			all_dacs.dac7_val |= (int16_temp & 0x00F0)<<8;			
-		
-			if (midi_clock_cntr%4==0)
-			{
-			
-				all_dacs.dac3_val = rand_values[3];
-				all_dacs.dac4_val = rand_values[4];
-			
-				int16_temp = rand()>>2; //half random
-			
-				if(int16_temp>0x1000)//{
-					int16_temp |= 0xE000; //MAKE IT MINUS!!
-				
-					rand_5_temp += int16_temp;
-
-					if(rand_5_temp>16383)
-					rand_5_temp=16383;
-					if(rand_5_temp<0)
-					rand_5_temp=0;
-
-					int16_temp = (uint16_t) rand_5_temp<<2;
-				
-					all_dacs.dac5_val =	(int16_temp & 0xFF00)>>8; //4095 * (midi_clock_cntr & 0x0F);
-					all_dacs.dac5_val |= (int16_temp & 0x00F0)<<8;
-
-			}
-			
-			if (midi_clock_cntr%16 == 0)
-				all_dacs.dac6_val = rand_values[6];
-			
-			if (learn_button!=BUTTON_DOWN)
-				max5825_set_load_all(&all_dacs);				
-
-					
-			
-
-			
-			calc_update_flag=0;
-			
-		}
-	}else{
-		//random scheduler 		
-		nxt_rand++;
-		if(nxt_rand>=10)
-			nxt_rand=0;
-		
-		switch(nxt_rand){
-			case 0: 
-			case 7:
-			case 9:		all_dacs.dac0_val = rand(); break;//directly cos updates only on 16ths anyway
-			
-			case 1:
-			case 8:
-			case 10:	all_dacs.dac1_val = rand(); break; //directly cos updates only on 16ths anyway
-			
-			case 3:		rand_values[3] = rand();	break;
-			
-			case 4: 	rand_values[4] = rand();	break;
-			
-			case 6:		rand_values[6] = rand();	break; 		
-		
-			default: break;
-		}		
-	}
-	
 	
 	//CHECK FOR GOTO SETTINGS MENU - LEARN BUTTON HAS TO BE DOWN FOR 3 SEC 
 	if ((learn_button == BUTTON_RELEASED)){
@@ -452,14 +357,14 @@ ISR(TIMER1_COMPA_vect){
 		
 			TCCR1B = 0; //stop timer
 			TIFR |= (1 << OCF1A); //reset flag
-			
-			(*clear_pin_ptr)(PIN_B);
-			(*clear_pin_ptr)(PIN_C);
-			(*clear_pin_ptr)(PIN_D);
-			(*clear_pin_ptr)(PIN_E);
-			(*clear_pin_ptr)(PIN_F);
-			(*clear_pin_ptr)(PIN_H);
-			(*clear_pin_ptr)(PIN_G);
+			(*clear_pin_ptr)(PIN_A);
+			//(*clear_pin_ptr)(PIN_B);
+			//(*clear_pin_ptr)(PIN_C);
+			//(*clear_pin_ptr)(PIN_D);
+			//(*clear_pin_ptr)(PIN_E);
+			//(*clear_pin_ptr)(PIN_F);
+			//(*clear_pin_ptr)(PIN_H);
+			//(*clear_pin_ptr)(PIN_G);
 			
 }
 
@@ -468,12 +373,7 @@ ISR(TIMER1_COMPA_vect){
 ISR(USART_RXC_vect)
 {
 	uint8_t uart_data;
-	// static int brown1;
-	//int temp;
 	uart_data = UDR;
-	
-	
-	//set_LED(ENABLE);
 	
 	if ((uart_data>>MIDI_STATUS_bit)&1)
 	{
@@ -483,17 +383,21 @@ ISR(USART_RXC_vect)
 			midi_clock_cntr = 0;
 			midi_tripl_cntr = 0;
 			midi_quarter_cntr = 0;
-			(* set_pin_ptr)(PIN_A);
+
+			max5825_set_load_channel(0,0xFFFF);
+			// (* set_pin_ptr)(PIN_A);
 		}
 		
 		if (uart_data == MIDI_STOP){
 			midi_clock_run = 0;
-			(* clear_pin_ptr)(PIN_A);
+			max5825_set_load_channel(0,0);
+			// (* clear_pin_ptr)(PIN_A);
 			}
 		
 		if (uart_data == MIDI_CONT){
 			midi_clock_run = 1;
-			(* set_pin_ptr)(PIN_A);		
+			//(* set_pin_ptr)(PIN_A);		
+			max5825_set_load_channel(0,0xFFFF);
 			}
 		
 		//if (((uart_data&0xE0) == MIDI_NOTE_OFF)){ //receives note ons too: &E0 !!
@@ -506,17 +410,12 @@ ISR(USART_RXC_vect)
 		// EVERYTHING CLOCK
 			if ((midi_clock_run == 1) && (uart_data == MIDI_CLK)) // midi clock rx
 			{
-			(*set_pin_ptr)(PIN_B);
 
 			if (midi_clock_tick_cntr % 6 == 0)
 			{
-				(*set_pin_ptr)(PIN_C);
-				(*set_pin_ptr)(PIN_D);
-				(*set_pin_ptr)(PIN_E);
+				(*set_pin_ptr)(PIN_A);
 			}
 
-			if(midi_clock_tick_cntr % 12 == 0) 
-				(*set_pin_ptr)(PIN_F);
 
 			midi_clock_tick_cntr++;
 			if(midi_clock_tick_cntr > 23) midi_clock_tick_cntr = 0; //reset
@@ -524,17 +423,7 @@ ISR(USART_RXC_vect)
 			}
 
 		
-		
-		
-			
-		//if ( ((midi_quarter_cntr^midi_quarter_cntr_prev)&sync_counter_match) != 0){ //test for boundary
-			//(* set_pin_ptr)(PIN_G);
-			//}
-			//
-		//midi_quarter_cntr_prev = midi_quarter_cntr;	
-		
 	
-		
 		
 	
 		//else if (midi_buff_allowed > 0) {
