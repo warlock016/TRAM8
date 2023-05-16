@@ -14,6 +14,7 @@
  */ 
 
 //#define SIMULATOR
+// #define __AVR_ATmega8A__
 
 #define BUTTON_LED_DEBUG
 
@@ -68,26 +69,31 @@ void start_timer1(uint8_t cmp_value);
 #define BUTTON_PRESSED	3
 #define BUTTON_RELEASED	4
 
-#define PIN_RUN 0
-#define PIN_24PPQN 1
-#define PIN_4PPQN 2
-#define PIN_2PPQN 3
-#define PIN_1PPQN 4
-#define PIN_HALF 5
-#define PIN_BAR 6
-#define PIN_TRIPLETS 7
+#define PIN_A 0
+#define PIN_B 1
+#define PIN_C 2
+#define PIN_D 3
+#define PIN_E 4
+#define PIN_F 5
+#define PIN_G 6
+#define PIN_H 7
 
 /* MIDI GLOBALS */
 
-uint8_t midi_clock_tick_cntr=0;
-uint8_t midi_clock_cntr=0;
+uint8_t midi_clock_tick_cntr=0; // 24 ppqn
+uint8_t midi_clock_cntr=0; // 4 ppqn
+uint8_t midi_clock_run=0; // 1 = run, 0 = stop
+
 uint8_t midi_tripl_cntr=0;
-uint8_t midi_clock_run=0;
 uint8_t midi_quarter_cntr=0;
 uint8_t midi_quarter_cntr_prev = 0;
+
 uint8_t sync_counter_match = (1 << 2); //1=QRT 2=HLF 4=BAR 8=2BAR etc.
+
 uint8_t wait_for_match = 0;
+
 uint8_t boundary_led_flag = 0;
+
 uint8_t group_hold = 0;
 
 uint8_t midi_note_map[8] = {60,61,62,63,64,65,66,67};
@@ -238,13 +244,13 @@ int main(void)
 		  clear_pin_ptr = & set_pin_inv;		
 	}
 
-				(*clear_pin_ptr)(PIN_24PPQN);
-				(*clear_pin_ptr)(PIN_4PPQN);
-				(*clear_pin_ptr)(PIN_2PPQN);
-				(*clear_pin_ptr)(PIN_1PPQN);
-				(*clear_pin_ptr)(PIN_HALF);
-				(*clear_pin_ptr)(PIN_TRIPLETS);
-				(*clear_pin_ptr)(PIN_BAR);
+				(*clear_pin_ptr)(PIN_B);
+				(*clear_pin_ptr)(PIN_C);
+				(*clear_pin_ptr)(PIN_D);
+				(*clear_pin_ptr)(PIN_E);
+				(*clear_pin_ptr)(PIN_F);
+				(*clear_pin_ptr)(PIN_H);
+				(*clear_pin_ptr)(PIN_G);
 				
 	_delay_ms(500);			
 	
@@ -477,13 +483,13 @@ ISR(TIMER1_COMPA_vect){
 			TCCR1B = 0; //stop timer
 			TIFR |= (1 << OCF1A); //reset flag
 			
-			(*clear_pin_ptr)(PIN_24PPQN);
-			(*clear_pin_ptr)(PIN_4PPQN);
-			(*clear_pin_ptr)(PIN_2PPQN);
-			(*clear_pin_ptr)(PIN_1PPQN);
-			(*clear_pin_ptr)(PIN_HALF);
-			(*clear_pin_ptr)(PIN_TRIPLETS);
-			(*clear_pin_ptr)(PIN_BAR);
+			(*clear_pin_ptr)(PIN_B);
+			(*clear_pin_ptr)(PIN_C);
+			(*clear_pin_ptr)(PIN_D);
+			(*clear_pin_ptr)(PIN_E);
+			(*clear_pin_ptr)(PIN_F);
+			(*clear_pin_ptr)(PIN_H);
+			(*clear_pin_ptr)(PIN_G);
 			
 }
 
@@ -492,8 +498,8 @@ ISR(TIMER1_COMPA_vect){
 ISR(USART_RXC_vect)
 {
 	uint8_t uart_data;
-	static int brown1;
-	int temp;
+	// static int brown1;
+	//int temp;
 	uart_data = UDR;
 	
 	
@@ -503,21 +509,21 @@ ISR(USART_RXC_vect)
 	{
 		if (uart_data == MIDI_START){
 			midi_clock_run = 1;
-			midi_clock_tick_cntr=0;
+			midi_clock_tick_cntr = 0;
 			midi_clock_cntr = 0;
 			midi_tripl_cntr = 0;
 			midi_quarter_cntr = 0;
-			(* set_pin_ptr)(PIN_RUN);
+			(* set_pin_ptr)(PIN_A);
 		}
 		
 		if (uart_data == MIDI_STOP){
 			midi_clock_run = 0;
-			(* clear_pin_ptr)(PIN_RUN);
+			(* clear_pin_ptr)(PIN_A);
 			}
 		
 		if (uart_data == MIDI_CONT){
 			midi_clock_run = 1;
-			(* set_pin_ptr)(PIN_RUN);		
+			(* set_pin_ptr)(PIN_A);		
 			}
 		
 		//if (((uart_data&0xE0) == MIDI_NOTE_OFF)){ //receives note ons too: &E0 !!
@@ -528,51 +534,40 @@ ISR(USART_RXC_vect)
 		//}
 		
 		// EVERYTHING CLOCK
-		
-		if ((uart_data == MIDI_CLK)&&(midi_clock_run==1)){ //midi clock rx
-			
-			midi_clock_tick_cntr++;
-		
-			(*set_pin_ptr)(PIN_24PPQN);			
-		
-		
-		if(midi_clock_tick_cntr == 1) {
-			(*set_pin_ptr)(PIN_4PPQN);
-			midi_clock_cntr++;
-			midi_tripl_cntr++;
-			if (midi_clock_cntr%4 == 1){ //count quarters by clock bytes
-				midi_quarter_cntr++;
-				(* set_pin_ptr)(PIN_1PPQN);
-				if (midi_quarter_cntr%2 == 0) //reset after 8 bars
-					(* set_pin_ptr)(PIN_HALF);	
-				if (midi_quarter_cntr%4 == 1)	
-					(* set_pin_ptr)(PIN_BAR);				
+
+			if ((midi_clock_run == 1) && (uart_data == MIDI_CLK)) // midi clock rx
+			{
+			(*set_pin_ptr)(PIN_B);
+
+			if (midi_clock_tick_cntr % 6 == 0)
+			{
+				(*set_pin_ptr)(PIN_C);
+				(*set_pin_ptr)(PIN_D);
+				(*set_pin_ptr)(PIN_E);
 			}
-			if (midi_tripl_cntr == 1) //reset after 8 bars
-				(* set_pin_ptr)(PIN_TRIPLETS);
-			if(midi_tripl_cntr >= 3)
-				midi_tripl_cntr=0;
-					
-			if (midi_clock_cntr%2 == 1) //reset after 8 bars
-				(* set_pin_ptr)(PIN_2PPQN);			
-		} 
+
+			if(midi_clock_tick_cntr % 12 == 0) 
+				(*set_pin_ptr)(PIN_F);
+
+			midi_clock_tick_cntr++;
+			if(midi_clock_tick_cntr > 23) midi_clock_tick_cntr = 0; //reset
+			start_timer1(78); // enable clock timer to trigger pin reset
+			}
+
 		
-		
-		if(midi_clock_tick_cntr >= 6)
-			midi_clock_tick_cntr = 0; //reset
 		
 		
 			
 		//if ( ((midi_quarter_cntr^midi_quarter_cntr_prev)&sync_counter_match) != 0){ //test for boundary
-			//(* set_pin_ptr)(PIN_BAR);
+			//(* set_pin_ptr)(PIN_G);
 			//}
 			//
 		//midi_quarter_cntr_prev = midi_quarter_cntr;	
 		
-		start_timer1(78);
+	
 		
-		}
-	} 
+		
+	
 		//else if (midi_buff_allowed > 0) {
 		////receive bytes of instruction if allowed
 		//midi_buff[midi_buff_point] = uart_data;
@@ -654,7 +649,7 @@ ISR(USART_RXC_vect)
 	//
 	//return;
 //}
-
+}
 
 
 void set_LED(uint8_t var){
