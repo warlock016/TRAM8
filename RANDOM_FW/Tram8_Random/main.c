@@ -14,7 +14,6 @@
  */ 
 
 //#define SIMULATOR
-// #define __AVR_ATmega8A__
 
 #define BUTTON_LED_DEBUG
 
@@ -23,7 +22,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <avr/eeprom.h>
-//#include <avr/boot.h>
 
 #define F_CPU 16000000UL
 #define FOSC 16000000UL
@@ -34,14 +32,8 @@
 #include "MIDI.h"
 #include "general_twi.h"
 #include "MAX5825.h"
-//#include "bootloader.h"
 
 //PROTOTYPES
-//void startupblink(void);
-//void midi_learn(void);
-//void setup_process(void);
-//void init_interrupt_pins(void);
-//void set_velocity(uint8_t ch, uint8_t velo);
 void set_default(void);
 void set_LED(uint8_t var);
 
@@ -119,25 +111,6 @@ void  (*set_pin_ptr)(uint8_t ) = & set_pin_inv;
 void  (*clear_pin_ptr)(uint8_t ) = & clear_pin_inv;
 
 
-//typedef struct {
-//uint8_t velocity_mute;
-//uint8_t clk_prescaler;
-//uint8_t reset_invert;
-//uint8_t midi_conv_en; 
-//} sys_presets;
-//
-//sys_presets presets = {DISABLE,DISABLE,DISABLE,ENABLE};
-
-
-///* LED INIT */
-//all_LED_struct LEDs = { {LED_ON,LED_ON,LED_ON,LED_ON,LED_ON,LED_ON,LED_ON,LED_ON},LED_OFF,LED_OFF,LED_OFF,LED_OFF };
-//uint8_t row_select = 1; 
-///* BUTTONS INIT */
-//all_buttons_struct buttons = { {BUTTON_UP,BUTTON_UP,BUTTON_UP,BUTTON_UP,BUTTON_UP,BUTTON_UP,BUTTON_UP,BUTTON_UP},BUTTON_UP,BUTTON_UP };
-//
-
-
-
 int main(void)
 {
 
@@ -146,13 +119,10 @@ int main(void)
 	DDRC = 0x0C | (1 << LED_pin) | (1 << BUTTON_PIN); //LDAC & CLEAR & LED
 	DDRB = 0x01; // Trigger Out 0	
 	DDRD = 0xFE; //Trigger outs 1-7
-	//DDRE = 0xFC; //ENABLE outs 7-2
-	//DDRG = 0x03; //ENABLE outs 1,0
-    //DDRF = 0x0C; // 0,1 Button Ins 2,3 Clock outs 
-   
-	//PORTC |= (1 << BUTTON_PIN);
+
     PORTD |= 0xFE; //ALL GATES LOW (Inverter Out)
     PORTB |= 0x01; // 
+	
 #ifndef SIMULATOR		
 	set_LED(ENABLE);
 	_delay_ms(300);
@@ -415,7 +385,7 @@ int main(void)
 	/************************************************************************/
 	/*                    keyscan                                           */
 	/************************************************************************/
-		if ((TIFR>>OCF2)&1)
+		if ((TIFR>>OCF2)&1) // Timer Interrupt Flag Register
 		{
 			//keyscan(&buttons);
 			TCNT2 = 0; //reset timer
@@ -534,7 +504,6 @@ ISR(USART_RXC_vect)
 		//}
 		
 		// EVERYTHING CLOCK
-
 			if ((midi_clock_run == 1) && (uart_data == MIDI_CLK)) // midi clock rx
 			{
 			(*set_pin_ptr)(PIN_B);
