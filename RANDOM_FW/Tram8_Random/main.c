@@ -73,6 +73,8 @@ void start_timer1(uint8_t cmp_value);
 #define PIN_G 6
 #define PIN_H 7
 
+#define maxNotes 6
+#define offset 2 
 /* MIDI GLOBALS */
 
 uint8_t midi_clock_tick_cntr = 0; // 24 ppqn
@@ -82,8 +84,12 @@ uint8_t midi_clock_run = 0;		  // 1 = run, 0 = stop
 uint8_t midi_note_map[8] = {60, 61, 62, 63, 64, 65, 66, 67};
 uint8_t midi_note_map_default[8] = {60, 61, 62, 63, 64, 65, 66, 67};
 
-uint8_t midi_channel = 9;
+uint8_t midi_channel = 0;
+uint8_t midi_learn = 0;
 
+uint8_t midi_note_cnt = 0;
+uint8_t midi_note_offset = 30; // adjust 
+uint8_t midi_note_buf[maxNotes] = {0};
 
 void (*set_pin_ptr)(uint8_t) = &set_pin_inv;
 void (*clear_pin_ptr)(uint8_t) = &clear_pin_inv;
@@ -147,18 +153,18 @@ void tram8_cfg(void)
 	{
 	} while (!eeprom_is_ready());
 	// load Channel
-	midi_channel = eeprom_read_byte(EEPROM_CHANNEL_ADDR);
+	// midi_channel = eeprom_read_byte(EEPROM_CHANNEL_ADDR);
 	do
 	{
 	} while (!eeprom_is_ready());
 	// load map
-	eeprom_read_block(&midi_note_map, EEPROM_MAP_ADDR, 8);
+	// eeprom_read_block(&midi_note_map, EEPROM_MAP_ADDR, 8);
 	do
 	{
 	} while (!eeprom_is_ready());
 	// set map to default if never learned:
-	if (midi_note_map[0] == 0xFF)
-		set_default();
+	// if (midi_note_map[0] == 0xFF)
+		// set_default();
 
 	/* CHECK FOR EXPANDERS */
 	PORTC = (1 << PC2) | (1 << PC3);
@@ -460,9 +466,14 @@ midi_event_callback_t clock(char chan, char data1, char data2)
 		(*set_pin_ptr)(PIN_A);
 		start_timer1(78); // enable clock timer to trigger pin reset
 	}
+
 	midi_clock_tick_cntr++;
-	if (midi_clock_tick_cntr > 23)
-		midi_clock_tick_cntr = 0; // reset
+
+	if (midi_clock_tick_cntr > 23)  // reset
+	{
+		midi_clock_tick_cntr = 0;
+	}
+	return;
 }
 
 midi_event_callback_t run(char chan, char data1, char data2)
@@ -473,6 +484,7 @@ midi_event_callback_t run(char chan, char data1, char data2)
 		midi_clock_tick_cntr = 0;
 		midi_clock_run = 1;
 	}
+	return;
 }
 
 midi_event_callback_t cont(char chan, char data1, char data2)
@@ -482,6 +494,7 @@ midi_event_callback_t cont(char chan, char data1, char data2)
 		max5825_set_load_channel(0, 0xFFFF);
 		midi_clock_run = 1;
 	}
+	return;
 }
 
 midi_event_callback_t stop(char chan, char data1, char data2)
@@ -491,6 +504,79 @@ midi_event_callback_t stop(char chan, char data1, char data2)
 		max5825_set_load_channel(0, 0);
 		midi_clock_run = 0;
 	}
+	return;
+}
+
+
+midi_event_callback_t note_off(char chan, char data1, char data2)
+{
+	// set_LED(DISABLE);
+
+	if((chan & 0x0F) != midi_channel) return; // wrong channel
+	if(midi_note_cnt < 1) return; // no notes
+	
+	midi_note_cnt--;
+
+	int pos = -1;
+
+	for (int i = 0; i < maxNotes; i++)
+	{
+		if (data1 == midi_note_buf[i])
+		{
+			pos = i;
+			break;
+		}
+	}
+
+	if(pos == -1)
+	{
+		pos = midi_note_cnt % maxNotes;
+	}
+
+	uint8_t dac_pos = pos + offset;
+	
+	//max5825_set_load_channel(pos + offset, 0xFFFF);
+	//max5825_set_load_channel(dac_pos, 0x0);
+	(*clear_pin_ptr)(dac_pos);
+
+	return;
+}
+
+midi_event_callback_t note_on(char chan, char data1, char data2)
+{
+	// set_LED(ENABLE);
+
+	if((chan & 0x0F) != midi_channel) return; // wrong channel
+
+	if(data2 == 0)
+	{
+		note_off(chan, data1, data2);
+		return;
+	}
+
+	uint8_t pos = (midi_note_cnt % maxNotes);
+	midi_note_buf[pos] = data1;
+
+	uint8_t dac_pos = pos + offset;
+	uint8_t voct_pos = data1 - midi_note_offset;
+
+	if(data1 < midi_note_offset)
+	{
+		voct_pos = 0;
+	}
+	
+	if(voct_pos >= voct_range)
+	{
+		voct_pos = 59;
+	}
+
+	uint16_t dac_val = voct_lookup[voct_pos];
+
+	max5825_set_load_channel(dac_pos, dac_val);
+	(*set_pin_ptr)(dac_pos);
+
+	midi_note_cnt++;
+	return;
 }
 
 void register_funcs(void)
@@ -499,5 +585,6 @@ void register_funcs(void)
 	midi_register_event_handler(EVT_SYS_REALTIME_SEQ_START, run);
 	midi_register_event_handler(EVT_SYS_REALTIME_SEQ_STOP, stop);
 	midi_register_event_handler(EVT_SYS_REALTIME_SEQ_CONTINUE, cont);
-
+	midi_register_event_handler(EVT_CHAN_NOTE_ON, note_on);
+	midi_register_event_handler(EVT_CHAN_NOTE_OFF, note_off);
 }
