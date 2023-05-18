@@ -1,0 +1,691 @@
+Archive member included to satisfy reference by file (symbol)
+
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+                              /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o (exit)
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+                              main.o (__do_copy_data)
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+                              main.o (__do_clear_bss)
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eerd_byte.o)
+                              main.o (eeprom_read_byte)
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eewr_block.o)
+                              main.o (eeprom_write_block)
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eewr_byte.o)
+                              main.o (eeprom_write_byte)
+
+Discarded input sections
+
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+ .text          0x00000000        0x0 general_twi.o
+ .data          0x00000000        0x0 general_twi.o
+ .bss           0x00000000        0x0 general_twi.o
+ .text.TWI_WRITE_BYTE
+                0x00000000       0x70 general_twi.o
+ .text.TWI_READ_BYTE
+                0x00000000       0xa8 general_twi.o
+ .text.TWI_READ_BULK
+                0x00000000      0x104 general_twi.o
+ .text.TWI_ERROR
+                0x00000000        0x6 general_twi.o
+ .text          0x00000000        0x0 main.o
+ .data          0x00000000        0x0 main.o
+ .bss           0x00000000        0x0 main.o
+ .text.set_default
+                0x00000000       0x38 main.o
+ .bss.midi_learn
+                0x00000000        0x1 main.o
+ .data.midi_note_map_default
+                0x00000000        0x8 main.o
+ .data.midi_note_map
+                0x00000000        0x8 main.o
+ .bss.midi_clock_cntr
+                0x00000000        0x1 main.o
+ .data.velocity_lookup
+                0x00000000      0x100 main.o
+ .avr.prop      0x00000000       0x28 main.o
+ .text          0x00000000        0x0 MAX5825.o
+ .data          0x00000000        0x0 MAX5825.o
+ .bss           0x00000000        0x0 MAX5825.o
+ .text.test_max5825
+                0x00000000       0x26 MAX5825.o
+ .text.max5825_set_load_all
+                0x00000000        0xe MAX5825.o
+ .text          0x00000000        0x0 midi.o
+ .data          0x00000000        0x0 midi.o
+ .bss           0x00000000        0x0 midi.o
+ .avr.prop      0x00000000       0x1f midi.o
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .text.libgcc.mul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .text.libgcc.div
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .text.libgcc   0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .text.libgcc.mul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .text.libgcc.div
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+ .text.libgcc.mul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+ .text.libgcc.div
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eerd_byte.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eerd_byte.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eerd_byte.o)
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eewr_block.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eewr_block.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eewr_block.o)
+ .text.avr-libc
+                0x00000000       0x12 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eewr_block.o)
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eewr_byte.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eewr_byte.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eewr_byte.o)
+ .text.avr-libc
+                0x00000000       0x1a /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eewr_byte.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00002000         xr
+data             0x00800060         0x0000ffa0         rw!x
+eeprom           0x00810000         0x00010000         rw!x
+fuse             0x00820000         0x00000002         rw!x
+lock             0x00830000         0x00000400         rw!x
+signature        0x00840000         0x00000400         rw!x
+user_signatures  0x00850000         0x00000400         rw!x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+LOAD general_twi.o
+LOAD main.o
+LOAD MAX5825.o
+LOAD midi.o
+START GROUP
+LOAD /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libm.a
+END GROUP
+START GROUP
+LOAD /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a
+LOAD /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libm.a
+LOAD /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libc.a
+LOAD /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a
+END GROUP
+                0x00002000                        __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x2000
+                0x00800060                        __DATA_REGION_ORIGIN__ = DEFINED (__DATA_REGION_ORIGIN__)?__DATA_REGION_ORIGIN__:0x800060
+                0x0000ffa0                        __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xffa0
+                0x00010000                        __EEPROM_REGION_LENGTH__ = DEFINED (__EEPROM_REGION_LENGTH__)?__EEPROM_REGION_LENGTH__:0x10000
+                [0x00000002]                      __FUSE_REGION_LENGTH__ = DEFINED (__FUSE_REGION_LENGTH__)?__FUSE_REGION_LENGTH__:0x400
+                0x00000400                        __LOCK_REGION_LENGTH__ = DEFINED (__LOCK_REGION_LENGTH__)?__LOCK_REGION_LENGTH__:0x400
+                0x00000400                        __SIGNATURE_REGION_LENGTH__ = DEFINED (__SIGNATURE_REGION_LENGTH__)?__SIGNATURE_REGION_LENGTH__:0x400
+                0x00000400                        __USER_SIGNATURE_REGION_LENGTH__ = DEFINED (__USER_SIGNATURE_REGION_LENGTH__)?__USER_SIGNATURE_REGION_LENGTH__:0x400
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000      0xbe8
+ *(.vectors)
+ .vectors       0x00000000       0x26 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
+ *(.vectors)
+ *(.progmem.gcc*)
+                0x00000026                        . = ALIGN (0x2)
+                0x00000026                        __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x00000026        0x0 linker stubs
+ *(.trampolines*)
+                0x00000026                        __trampolines_end = .
+ *libprintf_flt.a:*(.progmem.data)
+ *libc.a:*(.progmem.data)
+ *(.progmem.*)
+                0x00000026                        . = ALIGN (0x2)
+ *(.lowtext)
+ *(.lowtext*)
+                0x00000026                        __ctors_start = .
+ *(.ctors)
+                0x00000026                        __ctors_end = .
+                0x00000026                        __dtors_start = .
+ *(.dtors)
+                0x00000026                        __dtors_end = .
+ SORT_BY_NAME(*)(.ctors)
+ SORT_BY_NAME(*)(.dtors)
+ *(.init0)
+ .init0         0x00000026        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+                0x00000026                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x00000026        0xc /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x00000032       0x16 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+                0x00000032                __do_copy_data
+ .init4         0x00000048       0x10 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+                0x00000048                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x00000058        0x4 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+ *(.init9)
+ *(.text)
+ .text          0x0000005c        0x2 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+                0x0000005c                __vector_18
+                0x0000005c                __vector_12
+                0x0000005c                __bad_interrupt
+                0x0000005c                __vector_3
+                0x0000005c                __vector_13
+                0x0000005c                __vector_17
+                0x0000005c                __vector_7
+                0x0000005c                __vector_5
+                0x0000005c                __vector_4
+                0x0000005c                __vector_9
+                0x0000005c                __vector_2
+                0x0000005c                __vector_15
+                0x0000005c                __vector_8
+                0x0000005c                __vector_14
+                0x0000005c                __vector_10
+                0x0000005c                __vector_16
+                0x0000005c                __vector_1
+                0x0000005e                        . = ALIGN (0x2)
+ *(.text.*)
+ .text.TWI_WRITE_BULK
+                0x0000005e       0x9e general_twi.o
+                0x0000005e                TWI_WRITE_BULK
+ .text.set_pin_inv
+                0x000000fc       0x2e main.o
+                0x000000fc                set_pin_inv
+ .text.clear_pin_inv
+                0x0000012a       0x2e main.o
+                0x0000012a                clear_pin_inv
+ .text.note_off
+                0x00000158       0x5e main.o
+                0x00000158                note_off
+ .text.run      0x000001b6       0x1a main.o
+                0x000001b6                run
+ .text.cont     0x000001d0       0x16 main.o
+                0x000001d0                cont
+ .text.stop     0x000001e6       0x18 main.o
+                0x000001e6                stop
+ .text.note_on  0x000001fe       0x80 main.o
+                0x000001fe                note_on
+ .text.tram8_init
+                0x0000027e       0x74 main.o
+                0x0000027e                tram8_init
+ .text.__vector_6
+                0x000002f2       0x58 main.o
+                0x000002f2                __vector_6
+ .text.__vector_11
+                0x0000034a       0x48 main.o
+                0x0000034a                __vector_11
+ .text.set_LED  0x00000392        0xc main.o
+                0x00000392                set_LED
+ .text.tram8_cfg
+                0x0000039e       0xb8 main.o
+                0x0000039e                tram8_cfg
+ .text.start_timer1
+                0x00000456       0x1e main.o
+                0x00000456                start_timer1
+ .text.clock    0x00000474       0x4a main.o
+                0x00000474                clock
+ .text.register_funcs
+                0x000004be       0x32 main.o
+                0x000004be                register_funcs
+ .text.main     0x000004f0       0x6e main.o
+                0x000004f0                main
+ .text.init_max5825
+                0x0000055e       0x34 MAX5825.o
+                0x0000055e                init_max5825
+ .text.max5825_set_load_channel
+                0x00000592       0x2c MAX5825.o
+                0x00000592                max5825_set_load_channel
+ .text.null_event_cb
+                0x000005be        0x2 midi.o
+ .text.midi_init
+                0x000005c0       0x1a midi.o
+                0x000005c0                midi_init
+ .text.midi_register_event_handler
+                0x000005da       0x30 midi.o
+                0x000005da                midi_register_event_handler
+ .text.midi_receive_byte
+                0x0000060a      0x582 midi.o
+                0x0000060a                midi_receive_byte
+ .text.avr-libc
+                0x00000b8c       0x10 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/libatmega8a.a(eerd_byte.o)
+                0x00000b8c                eeprom_read_byte
+                0x00000b9c                        . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x00000b9c        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+                0x00000b9c                exit
+                0x00000b9c                _exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x00000b9c        0x4 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ *(.fini0)
+ *(.hightext)
+ *(.hightext*)
+ *(.progmemx.*)
+                0x00000ba0                        . = ALIGN (0x2)
+ *(.jumptables)
+ *(.jumptables*)
+ .jumptables.gcc.set_pin_inv
+                0x00000ba0       0x10 main.o
+ .jumptables.gcc.clear_pin_inv
+                0x00000bb0       0x10 main.o
+ .jumptables.gcc.midi_receive_byte
+                0x00000bc0       0x28 midi.o
+                0x00000be8                        _etext = .
+
+.data           0x00800060       0x7e load address 0x00000be8
+                0x00800060                        PROVIDE (__data_start = .)
+ *(.data)
+ *(.data*)
+ .data.learn_button.2369
+                0x00800060        0x1 main.o
+ .data.clear_pin_ptr
+                0x00800061        0x2 main.o
+                0x00800061                clear_pin_ptr
+ .data.set_pin_ptr
+                0x00800063        0x2 main.o
+                0x00800063                set_pin_ptr
+ .data.midi_note_offset
+                0x00800065        0x1 main.o
+                0x00800065                midi_note_offset
+ .data.voct_lookup
+                0x00800066       0x78 main.o
+                0x00800066                voct_lookup
+ *(.gnu.linkonce.d*)
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.r*)
+                0x008000de                        . = ALIGN (0x2)
+                0x008000de                        _edata = .
+                0x008000de                        PROVIDE (__data_end = .)
+
+.bss            0x008000de       0x32
+                0x008000de                        PROVIDE (__bss_start = .)
+ *(.bss)
+ *(.bss*)
+ .bss.button_last.2372
+                0x008000de        0x1 main.o
+ .bss.button_bounce.2371
+                0x008000df        0x1 main.o
+ .bss.midi_note_buf
+                0x008000e0        0x6 main.o
+                0x008000e0                midi_note_buf
+ .bss.midi_note_cnt
+                0x008000e6        0x1 main.o
+                0x008000e6                midi_note_cnt
+ .bss.midi_channel
+                0x008000e7        0x1 main.o
+                0x008000e7                midi_channel
+ .bss.midi_clock_run
+                0x008000e8        0x1 main.o
+                0x008000e8                midi_clock_run
+ .bss.midi_clock_tick_cntr
+                0x008000e9        0x1 main.o
+                0x008000e9                midi_clock_tick_cntr
+ .bss.g_callbacks
+                0x008000ea       0x1e midi.o
+ .bss.g_message_counter
+                0x00800108        0x4 midi.o
+ .bss.g_data_byte_two
+                0x0080010c        0x1 midi.o
+ .bss.g_data_byte_one
+                0x0080010d        0x1 midi.o
+ .bss.g_current_channel
+                0x0080010e        0x1 midi.o
+ .bss.g_state   0x0080010f        0x1 midi.o
+ *(COMMON)
+                0x00800110                        PROVIDE (__bss_end = .)
+                0x00000be8                        __data_load_start = LOADADDR (.data)
+                0x00000c66                        __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00800110        0x0
+                [!provide]                        PROVIDE (__noinit_start = .)
+ *(.noinit .noinit.* .gnu.linkonce.n.*)
+                [!provide]                        PROVIDE (__noinit_end = .)
+                0x00800110                        _end = .
+                [!provide]                        PROVIDE (__heap_start = .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                        __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000       0x24
+ *(.comment)
+ .comment       0x00000000       0x24 general_twi.o
+                                 0x25 (size before relaxing)
+ .comment       0x00000024       0x25 main.o
+ .comment       0x00000024       0x25 MAX5825.o
+ .comment       0x00000024       0x25 midi.o
+
+.note.gnu.avr.deviceinfo
+                0x00000000       0x3c
+ .note.gnu.avr.deviceinfo
+                0x00000000       0x3c /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+
+.note.gnu.build-id
+ *(.note.gnu.build-id)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000      0x1b0
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x40 general_twi.o
+ .debug_aranges
+                0x00000040       0xa0 main.o
+ .debug_aranges
+                0x000000e0       0x38 MAX5825.o
+ .debug_aranges
+                0x00000118       0x38 midi.o
+ .debug_aranges
+                0x00000150       0x20 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .debug_aranges
+                0x00000170       0x20 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .debug_aranges
+                0x00000190       0x20 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x00000000     0x20e1
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x00000000      0x48c /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+ .debug_info    0x0000048c      0x3e9 general_twi.o
+ .debug_info    0x00000875      0xd10 main.o
+ .debug_info    0x00001585      0x40e MAX5825.o
+ .debug_info    0x00001993      0x6dc midi.o
+ .debug_info    0x0000206f       0x26 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .debug_info    0x00002095       0x26 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .debug_info    0x000020bb       0x26 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+
+.debug_abbrev   0x00000000      0xe48
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x44e /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+ .debug_abbrev  0x0000044e      0x1f5 general_twi.o
+ .debug_abbrev  0x00000643      0x35b main.o
+ .debug_abbrev  0x0000099e      0x1b8 MAX5825.o
+ .debug_abbrev  0x00000b56      0x2b6 midi.o
+ .debug_abbrev  0x00000e0c       0x14 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .debug_abbrev  0x00000e20       0x14 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .debug_abbrev  0x00000e34       0x14 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+
+.debug_line     0x00000000     0x2dd5
+ *(.debug_line .debug_line.* .debug_line_end)
+ .debug_line    0x00000000       0x1d /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+ .debug_line    0x0000001d      0xe3e general_twi.o
+ .debug_line    0x00000e5b      0xff2 main.o
+ .debug_line    0x00001e4d      0x1de MAX5825.o
+ .debug_line    0x0000202b      0xc2d midi.o
+ .debug_line    0x00002c58       0x61 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .debug_line    0x00002cb9       0x97 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .debug_line    0x00002d50       0x85 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+
+.debug_frame    0x00000000      0x2f8
+ *(.debug_frame)
+ .debug_frame   0x00000000       0x64 general_twi.o
+ .debug_frame   0x00000064      0x1bc main.o
+ .debug_frame   0x00000220       0x84 MAX5825.o
+ .debug_frame   0x000002a4       0x54 midi.o
+
+.debug_str      0x00000000      0xcbc
+ *(.debug_str)
+ .debug_str     0x00000000      0x17a /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr4/crtatmega8a.o
+ .debug_str     0x0000017a      0x1dd general_twi.o
+                                0x216 (size before relaxing)
+ .debug_str     0x00000357      0x55b main.o
+                                0x6e3 (size before relaxing)
+ .debug_str     0x000008b2       0x46 MAX5825.o
+                                0x2b7 (size before relaxing)
+ .debug_str     0x000008f8      0x341 midi.o
+                                0x651 (size before relaxing)
+ .debug_str     0x00000c39       0x83 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_exit.o)
+ .debug_str     0x00000cbc       0x83 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_copy_data.o)
+ .debug_str     0x00000cbc       0x83 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr4/libgcc.a(_clear_bss.o)
+
+.debug_loc      0x00000000     0x13ef
+ *(.debug_loc)
+ .debug_loc     0x00000000      0x44c general_twi.o
+ .debug_loc     0x0000044c      0x839 main.o
+ .debug_loc     0x00000c85       0xda MAX5825.o
+ .debug_loc     0x00000d5f      0x690 midi.o
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges   0x00000000      0x2e8
+ *(.debug_ranges)
+ .debug_ranges  0x00000000      0x140 general_twi.o
+ .debug_ranges  0x00000140       0xf0 main.o
+ .debug_ranges  0x00000230       0x28 MAX5825.o
+ .debug_ranges  0x00000258       0x90 midi.o
+
+.debug_addr
+ *(.debug_addr)
+
+.debug_line_str
+ *(.debug_line_str)
+
+.debug_loclists
+ *(.debug_loclists)
+
+.debug_macro
+ *(.debug_macro)
+
+.debug_names
+ *(.debug_names)
+
+.debug_rnglists
+ *(.debug_rnglists)
+
+.debug_str_offsets
+ *(.debug_str_offsets)
+
+.debug_sup
+ *(.debug_sup)
+OUTPUT(Tram8_Random.elf elf32-avr)
+LOAD linker stubs

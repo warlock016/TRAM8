@@ -42,7 +42,7 @@ void max5825_set_load_channel(uint8_t ch, uint16_t value){
 	uint8_t data[2];
 	
 	data[0]= (uint8_t) ((value>>8) & 0xFF);
-	data[1]= (uint8_t) (value & 0x00F0);
+	data[1]= (uint8_t) (value & 0xF0);
 
 	TWI_WRITE_BULK(MAX5825_ADDR,cmd_addr,2,&data);
 	
@@ -52,8 +52,6 @@ void max5825_set_load_channel(uint8_t ch, uint16_t value){
 
 void max5825_set_load_all(max_fill_struct * data){
 	uint8_t cmd_addr = (MAX5825_REG_CODEn | 0);
-	
-	TWI_WRITE_BULK(MAX5825_ADDR,cmd_addr,23,data);
-	
-	
+
+	TWI_WRITE_BULK(MAX5825_ADDR,cmd_addr,23,data);	
 }
