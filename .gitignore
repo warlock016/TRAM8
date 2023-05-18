@@ -3,3 +3,5 @@
 *.d
 *.DS_Store
 ./Debug/*
+*.syx
+*.hex
