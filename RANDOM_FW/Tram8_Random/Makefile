@@ -39,7 +39,8 @@ SUBDIRS :=
 C_SRCS +=  \
 ./general_twi.c \
 ./main.c \
-./MAX5825.c
+./MAX5825.c \
+./midi.c
 
 
 PREPROCESSING_SRCS += 
@@ -51,22 +52,26 @@ ASM_SRCS +=
 OBJS +=  \
 general_twi.o \
 main.o \
-MAX5825.o
+MAX5825.o \
+midi.o
 
 OBJS_AS_ARGS +=  \
 general_twi.o \
 main.o \
-MAX5825.o
+MAX5825.o\
+midi.o
 
 C_DEPS +=  \
 general_twi.d \
 main.d \
-MAX5825.d
+MAX5825.d\
+midi.d
 
 C_DEPS_AS_ARGS +=  \
 general_twi.d \
 main.d \
-MAX5825.d
+MAX5825.d\
+midi.d
 
 OUTPUT_FILE_PATH +=Tram8_Random.elf
 
@@ -80,45 +85,17 @@ LIB_DEP+=
 
 LINKER_SCRIPT_DEP+= 
 
-# C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe
-# C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.2.209\include
-# C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\2.0.401\include
-# C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\2.0.401\gcc\dev\atmega8a
-
 # AVR32/GNU C Compiler
-./general_twi.o: ./general_twi.c
+%.o: %.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)/usr/local/Cellar/avr-gcc@9/9.4.0/bin/avr-gcc$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"/usr/local/Cellar/avr-gcc@9/9.4.0/avr/include" -I"/usr/local/Cellar/avr-gcc@9/9.4.0/avr/lib"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega8a -B "/usr/local/Cellar/avr-gcc@9/9.4.0/avr/lib/usr/local/Cellar/avr-binutils/2.40_1/avr/bin" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)/usr/local/Cellar/avr-gcc@9/9.4.0/bin/avr-gcc$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"/usr/local/Cellar/avr-gcc@9/9.4.0/avr/include" -I"/usr/local/Cellar/avr-gcc@9/9.4.0/avr/lib"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega8a -B "/usr/local/Cellar/avr-gcc@9/9.4.0/avr/lib/usr/local/Cellar/avr-binutils/2.40_1/avr/bin" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
-	
-
-./main.o: ./main.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)/usr/local/Cellar/avr-gcc@9/9.4.0/bin/avr-gcc$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"/usr/local/Cellar/avr-gcc@9/9.4.0/avr/include" -I"/usr/local/Cellar/avr-gcc@9/9.4.0/avr/lib"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega8a -B "/usr/local/Cellar/avr-gcc@9/9.4.0/avr/lib/usr/local/Cellar/avr-binutils/2.40_1/avr/bin" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-./MAX5825.o: ./MAX5825.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)/usr/local/Cellar/avr-gcc@9/9.4.0/bin/avr-gcc$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"/usr/local/Cellar/avr-gcc@9/9.4.0/avr/include" -I"/usr/local/Cellar/avr-gcc@9/9.4.0/avr/lib"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega8a -B "/usr/local/Cellar/avr-gcc@9/9.4.0/avr/lib/usr/local/Cellar/avr-binutils/2.40_1/avr/bin" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
 
 
 
 # AVR32/GNU Preprocessing Assembler
-
-
-
 # AVR32/GNU Assembler
-
-
-
-
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(strip $(C_DEPS)),)
 -include $(C_DEPS)
@@ -141,11 +118,6 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER
 	"/usr/local/Cellar/avr-binutils/2.40_1/bin/avr-objcopy" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "Tram8_Random.elf" "Tram8_Random.srec"
 	"/usr/local/Cellar/avr-binutils/2.40_1/bin/avr-size" "Tram8_Random.elf"
 	
-	
-
-
-
-
 
 # Other Targets
 clean:
