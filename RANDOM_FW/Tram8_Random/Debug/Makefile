@@ -37,10 +37,10 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-./general_twi.c \
-./main.c \
-./MAX5825.c \
-./midi.c
+../general_twi.c \
+../main.c \
+../MAX5825.c \
+../midi.c
 
 
 PREPROCESSING_SRCS += 
@@ -86,7 +86,7 @@ LIB_DEP+=
 LINKER_SCRIPT_DEP+= 
 
 # AVR32/GNU C Compiler
-%.o: %.c
+%.o: ../%.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)/usr/local/Cellar/avr-gcc@9/9.4.0/bin/avr-gcc$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"/usr/local/Cellar/avr-gcc@9/9.4.0/avr/include" -I"/usr/local/Cellar/avr-gcc@9/9.4.0/avr/lib"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega8a -B "/usr/local/Cellar/avr-gcc@9/9.4.0/avr/lib/usr/local/Cellar/avr-binutils/2.40_1/avr/bin" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
