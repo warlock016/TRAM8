@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <avr/eeprom.h>
+#include <stdbool.h>
 
 #define F_CPU 16000000UL
 #define FOSC 16000000UL
@@ -73,23 +74,31 @@ void start_timer1(uint8_t cmp_value);
 #define PIN_G 6
 #define PIN_H 7
 
-#define maxNotes 6
-#define offset 2 
+#define maxNotes 10
+#define maxSlots 8
+#define maxChans 16
 /* MIDI GLOBALS */
+typedef struct midi_channel_data
+{
+	uint8_t note_count;
+	uint8_t dac_offset;
+	uint8_t max_num_notes;
+	int8_t midi_note_buf[maxNotes];
+	int8_t midi_note_min;
+	int8_t midi_note_max;
+	int8_t midi_note_offset;
+} channel_data;
+
+channel_data *active_chan[maxChans] = {NULL};
+
+uint8_t pulse_reset_flag[maxSlots] = {false}; // track dac on/off when in pulse mode
+
+uint8_t hw_slots = 2;
 
 uint8_t midi_clock_tick_cntr = 0; // 24 ppqn
 uint8_t midi_clock_cntr = 0;	  // 4 ppqn
 uint8_t midi_clock_run = 0;		  // 1 = run, 0 = stop
-
-uint8_t midi_note_map[8] = {60, 61, 62, 63, 64, 65, 66, 67};
-uint8_t midi_note_map_default[8] = {60, 61, 62, 63, 64, 65, 66, 67};
-
-uint8_t midi_channel = 0;
-uint8_t midi_learn = 0;
-
-uint8_t midi_note_cnt = 0;
-uint8_t midi_note_offset = 30; // adjust 
-uint8_t midi_note_buf[maxNotes] = {0};
+uint8_t clk_stop_pulse = 0;		  // EoC reset pulse flag 
 
 void (*set_pin_ptr)(uint8_t) = &set_pin_inv;
 void (*clear_pin_ptr)(uint8_t) = &clear_pin_inv;
@@ -126,18 +135,6 @@ void tram8_cfg(void)
 		DDRC &= ~((1 << BUTTON_PIN)); // INPUT
 	}
 
-	// DIRECT_BUTTONS_DDR &= ~(1 << DIRECT_GROUPBUTTON_bit); //GROUP BUTTON IS INPUT
-	// DIRECT_BUTTONS_PORT |= (1 << DIRECT_GROUPBUTTON_bit); //PULLUP SWITCH TO GND
-
-	/* GUI INIT */ // GLOABL NOW
-	/* LED INIT */
-	// LEDs = { {LED_ON,LED_ON,LED_ON,LED_ON,LED_ON,LED_ON,LED_ON,LED_ON},LED_OFF,LED_OFF,LED_OFF,LED_OFF };
-	// row_select = 0;
-	/* BUTTONS INIT */
-	// buttons = { {BUTTON_UP,BUTTON_UP,BUTTON_UP,BUTTON_UP,BUTTON_UP,BUTTON_UP,BUTTON_UP,BUTTON_UP},BUTTON_UP,BUTTON_UP };
-
-	/* Blink Timer Init */
-	//	TCCR1B = 0b010; //FREE RUNNING, PORT disconnected, /64
 	/* Button Poll Timer */
 	TCCR2 = (1 << WGM20) | (0 << WGM21) | (0b111 << CS20); // CTC, PORT disconnected, /1024
 	OCR2 = 157;											   // ca. 10ms@16MHz
@@ -171,8 +168,6 @@ void tram8_cfg(void)
 	DDRC |= (1 << PC2) | (1 << PC3);
 
 #ifndef SIMULATOR
-	// velocity_out = test_max5825();
-	// init_max5825();
 	init_max5825();
 #endif
 
@@ -215,7 +210,6 @@ void tram8_init(void)
 	all_dacs.dac5_cmd = MAX5825_REG_CODEn | 5;
 	all_dacs.dac6_cmd = MAX5825_REG_CODEn | 6;
 	all_dacs.dac7_cmd = MAX5825_REG_CODEn_LOADall | 7;
-
 }
 
 int main(void)
@@ -224,11 +218,13 @@ int main(void)
 	tram8_init();
 
 	midi_init();
+
 	register_funcs();
 	/* INTERRUPTS ENABLE */
 	sei();
 
 	/* MAIN LOOP */
+	/* Detect user button interaction */
 	while (1)
 	{
 
@@ -319,14 +315,22 @@ ISR(TIMER1_COMPA_vect)
 
 	TCCR1B = 0;			  // stop timer
 	TIFR |= (1 << OCF1A); // reset flag
-	(*clear_pin_ptr)(PIN_A);
-	//(*clear_pin_ptr)(PIN_B);
-	//(*clear_pin_ptr)(PIN_C);
-	//(*clear_pin_ptr)(PIN_D);
-	//(*clear_pin_ptr)(PIN_E);
-	//(*clear_pin_ptr)(PIN_F);
-	//(*clear_pin_ptr)(PIN_H);
-	//(*clear_pin_ptr)(PIN_G);
+	
+	
+	for (char i = 0; i < maxSlots; ++i)
+	{
+		if (pulse_reset_flag[i]) // array with flags for all digital pins -> upper row of jacks on tram8
+		{
+			(*clear_pin_ptr)(i);
+			pulse_reset_flag[i] = 0;
+		}	
+	}
+	
+	if (clk_stop_pulse)
+	{
+		max5825_set_load_channel(1, 0x0);
+		clk_stop_pulse = 0;
+	}
 }
 
 /* MIDI RECEIVER */
@@ -339,8 +343,8 @@ ISR(USART_RXC_vect)
 void set_default(void)
 {
 	// MIDI
-	midi_channel = 9;
-	memcpy(&midi_note_map, &midi_note_map_default, 8);
+	uint8_t midi_channel = 1;
+	// memcpy(&midi_note_map, &midi_note_map_default, 8);
 
 	// SAVE TO EEPROM
 	do
@@ -355,7 +359,7 @@ void set_default(void)
 	} while (!eeprom_is_ready());
 	// load map
 	//	eeprom_read_block(&midi_note_map,EEPROM_MAP_ADDR,8);
-	eeprom_write_block(&midi_note_map, EEPROM_MAP_ADDR, 8);
+	// eeprom_write_block(&midi_note_map, EEPROM_MAP_ADDR, 8);
 
 	// do {} while (!eeprom_is_ready());
 	////load map
@@ -461,18 +465,27 @@ void clear_pin_inv(uint8_t pinnr)
 
 midi_event_callback_t clock(char chan, char data1, char data2)
 {
-	if (midi_clock_run && midi_clock_tick_cntr % 6 == 0)
+	if(!midi_clock_run) return;
+
+	bool timer_flag = false;
+
+	if (midi_clock_tick_cntr % 6 == 0)
 	{
 		(*set_pin_ptr)(PIN_A);
-		start_timer1(78); // enable clock timer to trigger pin reset
+		pulse_reset_flag[PIN_A] = true;
+		timer_flag = true;
+	}
+
+	if(midi_clock_cntr % 24 == 0)
+	{
+		(*set_pin_ptr)(PIN_B);
+		pulse_reset_flag[PIN_B] = true;
+		timer_flag = true;
 	}
 
 	midi_clock_tick_cntr++;
-
-	if (midi_clock_tick_cntr > 23)  // reset
-	{
-		midi_clock_tick_cntr = 0;
-	}
+	if (midi_clock_tick_cntr > 23) midi_clock_tick_cntr = 0;
+	if(timer_flag) start_timer1(36); // enable clock timer (ca. 2-3 ms) to trigger pin reset
 	return;
 }
 
@@ -480,9 +493,10 @@ midi_event_callback_t run(char chan, char data1, char data2)
 {
 	if(!midi_clock_run)
 	{
-		max5825_set_load_channel(0, 0xFFFF);
+		max5825_set_load_channel(0, 0xFFFF);	
 		midi_clock_tick_cntr = 0;
 		midi_clock_run = 1;
+		start_timer1(36);
 	}
 	return;
 }
@@ -501,90 +515,112 @@ midi_event_callback_t stop(char chan, char data1, char data2)
 {
 	if(midi_clock_run)
 	{
-		max5825_set_load_channel(0, 0);
+		max5825_set_load_channel(0, 0x0);
 		midi_clock_run = 0;
+
+		max5825_set_load_channel(1, 0xFFFF);
+		clk_stop_pulse = 1;
+		start_timer1(36);
 	}
 	return;
 }
 
-
 midi_event_callback_t note_off(char chan, char data1, char data2)
 {
-	// set_LED(DISABLE);
-
-	if((chan & 0x0F) != midi_channel) return; // wrong channel
-	if(midi_note_cnt < 1) return; // no notes
 	
-	midi_note_cnt--;
+	if(active_chan[chan] == NULL) return; // wrong channel
+	if(active_chan[chan]->note_count <= 0) return; // no notes
 
-	int pos = -1;
-
-	for (int i = 0; i < maxNotes; i++)
-	{
-		if (data1 == midi_note_buf[i])
-		{
-			pos = i;
-			break;
-		}
-	}
-
-	if(pos == -1)
-	{
-		pos = midi_note_cnt % maxNotes;
-	}
-
-	uint8_t dac_pos = pos + offset;
+	active_chan[chan]->note_count--;
 	
-	//max5825_set_load_channel(pos + offset, 0xFFFF);
-	//max5825_set_load_channel(dac_pos, 0x0);
-	(*clear_pin_ptr)(dac_pos);
-
+	uint8_t pos = active_chan[chan]->note_count % active_chan[chan]->max_num_notes + active_chan[chan]->dac_offset;
+	(*clear_pin_ptr)(pos);
 	return;
 }
 
 midi_event_callback_t note_on(char chan, char data1, char data2)
 {
-	// set_LED(ENABLE);
+	if(active_chan[chan] == NULL) return; // channel not registered
 
-	if((chan & 0x0F) != midi_channel) return; // wrong channel
-
-	if(data2 == 0)
+	if(data2 == 0) // midi note off message with velocity "0"
 	{
 		note_off(chan, data1, data2);
 		return;
 	}
-
-	uint8_t pos = (midi_note_cnt % maxNotes);
-	midi_note_buf[pos] = data1;
-
-	uint8_t dac_pos = pos + offset;
-	uint8_t voct_pos = data1 - midi_note_offset;
-
-	if(data1 < midi_note_offset)
-	{
-		voct_pos = 0;
-	}
 	
-	if(voct_pos >= voct_range)
+	uint8_t dac_pos = (active_chan[chan]->note_count % active_chan[chan]->max_num_notes) + active_chan[chan]->dac_offset;
+	int8_t voct_pos = data1 - active_chan[chan]->midi_note_offset;
+
+	if(voct_pos < active_chan[chan]->midi_note_min)
 	{
-		voct_pos = 59;
+		voct_pos = active_chan[chan]->midi_note_min;
+	}
+	else if (voct_pos > active_chan[chan]->midi_note_max)
+	{
+		voct_pos = active_chan[chan]->midi_note_max;
 	}
 
-	uint16_t dac_val = voct_lookup[voct_pos];
+	uint16_t dac_val = voct_lookup[voct_pos] << 4; // retrieve dac value for respective note
 
-	max5825_set_load_channel(dac_pos, dac_val);
-	(*set_pin_ptr)(dac_pos);
+	max5825_set_load_channel(dac_pos, dac_val); // set dac first
+	(*set_pin_ptr)(dac_pos); // set gate next
 
-	midi_note_cnt++;
+	active_chan[chan]->note_count++;
 	return;
 }
 
 void register_funcs(void)
 {
+
+	register_midi_channel(0x0,2,0,60,0);
+	register_midi_channel(0x1,2,0,60,0);
+	register_midi_channel(0x2,2,0,60,0);
+
 	midi_register_event_handler(EVT_SYS_REALTIME_TIMING_CLOCK, clock);
+
 	midi_register_event_handler(EVT_SYS_REALTIME_SEQ_START, run);
 	midi_register_event_handler(EVT_SYS_REALTIME_SEQ_STOP, stop);
 	midi_register_event_handler(EVT_SYS_REALTIME_SEQ_CONTINUE, cont);
+
 	midi_register_event_handler(EVT_CHAN_NOTE_ON, note_on);
 	midi_register_event_handler(EVT_CHAN_NOTE_OFF, note_off);
 }
+
+/* chan = midi channel 0 - 15, note_mode 1,2,3,4 a.k.a. note polyphony */
+void register_midi_channel(uint8_t chan, uint8_t note_mode, int8_t note_min, int8_t note_max, int8_t note_offset)
+{
+	if (note_mode < 1) return;
+	if (hw_slots + note_mode > maxSlots) return;
+	if(chan > 15) return;
+	if(chan < 0) return;
+	if(active_chan[chan] != NULL) return;
+
+	active_chan[chan] = (channel_data*)calloc(1,sizeof(channel_data));
+	
+	if (active_chan[chan] == NULL)
+		{
+			// Handle memory allocation failure
+			return;
+		}
+
+	active_chan[chan]->dac_offset = hw_slots;
+	hw_slots += note_mode;
+
+	active_chan[chan]->max_num_notes = note_mode; 
+	active_chan[chan]->midi_note_offset = note_offset;
+	active_chan[chan]->midi_note_min = note_min;
+	active_chan[chan]->midi_note_max = note_max;	
+}
+
+void deregister_midi_channel(uint8_t chan)
+{
+	if(chan > 15) return;
+	if(chan < 0) return;
+	if (active_chan[chan] == NULL) return;
+	
+	hw_slots -= active_chan[chan]->max_num_notes;
+
+	free(active_chan[chan]);
+	active_chan[chan] = NULL;
+}
+

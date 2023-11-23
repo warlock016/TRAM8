@@ -38,8 +38,11 @@ uint8_t test_max5825(void){
 
 void max5825_set_load_channel(uint8_t ch, uint16_t value){
 	
+//contains a 16 bit number that gets right-shifted (65535 >> 4 -> 4095) split into upper and lower bytes, before the shift.
+// this leads to a change in output value for every sixteen input value units --> 0 + 16*n before the right shift.
+
 	uint8_t cmd_addr = (MAX5825_REG_CODEn_LOADn | (ch & 0x0F));
-	uint8_t data[2];
+	uint8_t data[2]; 
 	
 	data[0]= (uint8_t) ((value>>8) & 0xFF);
 	data[1]= (uint8_t) (value & 0xF0);
